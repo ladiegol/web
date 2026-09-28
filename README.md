@@ -95,8 +95,6 @@ El **orden de la home** es el orden del array `projects`.
 
 ---
 
----
-
 ## La portada de bienvenida (welcome)
 
 Se configura en `data.json`, dentro de `meta`:
@@ -124,7 +122,7 @@ pase de diapositivas.
 ## Estructura del código
 
 ```
-index.html / 404.html   ← el mismo cascarón (404 para las urls profundas)
+index.html / 404.html   ← el mismo cascarón (el 404 solo lo usa GitHub Pages)
 css/
   base.css      tokens, tipografías, cabecera, about
   home.css      el grid
@@ -158,10 +156,26 @@ No vale abrir `index.html` con doble clic (hay rutas absolutas y un `fetch`). Ha
 python3 tools/serve.py
 ```
 
-y abrir http://localhost:8080. Ese servidorcillo imita a Cloudflare Pages: si recargas en
+y abrir http://localhost:8080. Ese servidorcillo imita a Cloudflare: si recargas en
 `/aftermatch` te devuelve la web en vez de un 404.
 
 Si cambias algo y sigues viendo lo viejo: caché. **Cmd+Shift+R**.
+
+---
+
+## Publicar (ladiegol.com)
+
+La web vive en **Cloudflare Workers** (solo archivos estáticos) conectada al repo del cliente,
+**`github.com/ladiegol/web`**. Cada push a `main` de ese repo se publica solo en un minuto.
+`github.com/meowrhino/ladiegol` es nuestra copia de trabajo.
+
+- `wrangler.jsonc`: la config. Publica la raíz del repo y, si la url no es un archivo
+  (`/aftermatch`, `/about`…), devuelve `index.html` con 200.
+- `.assetsignore`: lo que **no** se publica (`tools/`, este README, `.git`…).
+- `_headers`: la caché de cada carpeta. Los `_PROJECTS/` se guardan un año: si se cambia un
+  archivo, mejor darle **otro nombre** que machacar el mismo.
+
+Probar exactamente lo que servirá Cloudflare: `npx wrangler dev` → http://localhost:8787
 
 ---
 

@@ -1,0 +1,12 @@
+// Cloudflare Workers (solo archivos estáticos, sin código de servidor).
+// Cada push a main del repo ladiegol/web se despliega solo (Workers Builds).
+{
+  "name": "ladiegol",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    // la web es la raíz del repo; lo que no se publica está en .assetsignore
+    "directory": ".",
+    // /aftermatch, /about… no son archivos: devuelve index.html con 200 y la web se encarga
+    "not_found_handling": "single-page-application"
+  }
+}
