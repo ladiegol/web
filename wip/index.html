@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LA DIEGOL — work in progress</title>
+  <meta name="description" content="LA DIEGOL — director based in Barcelona. New site in progress." />
+  <meta name="theme-color" content="#0c0c0c" />
+  <meta name="robots" content="noindex" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="LA DIEGOL" />
+  <meta property="og:description" content="Director based in Barcelona. New site in progress." />
+  <meta property="og:url" content="https://ladiegol.com/" />
+
+  <link rel="icon" href="data:," />
+  <link rel="preload" href="/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin />
+
+  <style>
+    /* Página provisional mientras se termina la web. Las mismas piezas que la
+       web de verdad: fondo casi negro, JetBrains Mono para todo el texto y el
+       nombre con una gótica distinta por letra, encima de un pase de stills. */
+
+    :root {
+      --bg: #0c0c0c;
+      --fg: #ededed;
+      --fg-dim: #8a8a8a;
+      --pad: 16px;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    @font-face { font-family: "JetBrains Mono"; src: url(/fonts/jetbrains-mono-400.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: "Diegol 1"; src: url(/fonts/d1-unifraktur-maguntia.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: "Diegol 2"; src: url(/fonts/d2-germania-one.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: "Diegol 3"; src: url(/fonts/d3-pirata-one.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: "Diegol 4"; src: url(/fonts/d4-new-rocker.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: "Diegol 5"; src: url(/fonts/d5-metal-mania.woff2) format("woff2"); font-display: swap; }
+    @font-face { font-family: "Diegol 6"; src: url(/fonts/d6-grenze-gotisch.woff2) format("woff2"); font-display: swap; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.5;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wip {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      height: 100svh;
+      padding: var(--pad);
+      padding-top: max(var(--pad), env(safe-area-inset-top));
+      padding-bottom: max(var(--pad), env(safe-area-inset-bottom));
+    }
+
+    /* ---------- el pase de fondo ---------- */
+
+    .media { position: absolute; inset: 0; overflow: hidden; background: #000; }
+
+    .media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.6s ease;
+    }
+
+    .media img.is-front { opacity: 1; }
+
+    /* el velo baja el pase para que el nombre mande */
+    .veil {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(12, 12, 12, .7), rgba(12, 12, 12, 0) 22%, rgba(12, 12, 12, 0) 78%, rgba(12, 12, 12, .7)),
+        rgba(12, 12, 12, .5);
+    }
+
+    /* ---------- texto ---------- */
+
+    .row {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .dim { color: var(--fg-dim); }
+
+    .status { display: inline-flex; align-items: center; gap: .6em; }
+
+    .status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--fg);
+      animation: latido 2.4s ease-in-out infinite;
+    }
+
+    @keyframes latido {
+      0%, 100% { opacity: .25; }
+      50% { opacity: 1; }
+    }
+
+    .center {
+      position: relative;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: 1.6rem;
+      text-align: center;
+    }
+
+    .name {
+      margin: 0;
+      font-weight: 400;
+      font-size: clamp(48px, 13vw, 190px);
+      line-height: .95;
+      letter-spacing: 0;
+      text-transform: none;
+      text-shadow: 0 0 60px rgba(0, 0, 0, .55);
+      white-space: nowrap;
+    }
+
+    .name span { display: inline-block; }
+    .name .space { width: .3em; }
+
+    .clients {
+      max-width: 60ch;
+      margin: 0;
+      color: rgba(237, 237, 237, .72);
+      text-shadow: 0 0 18px rgba(0, 0, 0, .8);
+    }
+    .clients span { white-space: nowrap; }
+    .clients span:not(:last-child)::after { content: " ·"; }
+
+    @media (max-width: 720px) {
+      :root { --pad: 12px; }
+      .row { font-size: 10px; }
+      .name { font-size: 18vw; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .status::before { animation: none; opacity: 1; }
+      .media img { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wip">
+    <div class="media" aria-hidden="true"><img alt="" /><img alt="" /></div>
+    <div class="veil"></div>
+
+    <div class="row">
+      <span>ladiegol.com</span>
+      <span class="status">Work in progress</span>
+    </div>
+
+    <div class="center">
+      <h1 class="name" aria-label="LA DIEGOL">LA DIEGOL</h1>
+      <p class="clients">
+        <span>Cupra</span> <span>FC Barcelona</span> <span>Leroy Merlin</span> <span>Coches.net</span>
+        <span>Generalitat de Catalunya</span> <span>Yuyo Calm</span>
+      </p>
+    </div>
+
+    <div class="row dim">
+      <span>Director — Barcelona</span>
+      <span>New site soon</span>
+    </div>
+  </main>
+
+  <script>
+    const calma = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* El nombre: cada letra con una de las seis góticas, cambiando a su ritmo. */
+    const name = document.querySelector(".name");
+    const gotica = () => `"Diegol ${1 + Math.floor(Math.random() * 6)}"`;
+    name.innerHTML = "";
+    [..."LA DIEGOL"].forEach((ch) => {
+      const s = document.createElement("span");
+      s.setAttribute("aria-hidden", "true");
+      if (ch === " ") s.className = "space";
+      else {
+        s.textContent = ch;
+        s.style.fontFamily = gotica();
+        if (!calma) {
+          const tick = () => {
+            s.style.fontFamily = gotica();
+            setTimeout(tick, 900 + Math.random() * 1900);
+          };
+          setTimeout(tick, Math.random() * 2800);
+        }
+      }
+      name.append(s);
+    });
+
+    /* El pase de stills: fundido largo, zoom lentísimo y nunca dos fotos
+       seguidas del mismo proyecto. */
+    const FOTOS = [
+      "are-you-one-of-us-4", "are-you-one-of-us-7", "are-you-one-of-us-11",
+      "aftermatch-3", "aftermatch-9", "aftermatch-15",
+      "no-te-hace-falta-2", "no-te-hace-falta-7", "no-te-hace-falta-11",
+      "coches-net-2", "coches-net-6", "coches-net-8",
+      "llegir-2", "llegir-7", "llegir-10",
+      "yuyo-calm-6",
+    ];
+    const STILL_MS = 3400;
+    const proyecto = (f) => f.replace(/-\d+$/, "");
+    const baraja = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
+
+    const capas = document.querySelectorAll(".media img");
+    let cola = [];
+    let anterior = null;
+    let front = 0;
+
+    const siguienteFoto = () => {
+      if (!cola.length) cola = baraja(FOTOS);
+      let i = cola.findIndex((f) => proyecto(f) !== anterior);
+      if (i === -1) i = 0;
+      const [f] = cola.splice(i, 1);
+      anterior = proyecto(f);
+      return f;
+    };
+
+    const pasa = () => {
+      const back = 1 - front;
+      const img = capas[back];
+      img.onload = () => {
+        capas[front].classList.remove("is-front");
+        img.classList.add("is-front");
+        front = back;
+        if (!calma && img.animate) {
+          img.animate([{ transform: "scale(1.015)" }, { transform: "scale(1.07)" }], {
+            duration: STILL_MS + 1600,
+            easing: "linear",
+            fill: "forwards",
+          });
+        }
+        if (!calma) setTimeout(pasa, STILL_MS);
+      };
+      img.onerror = () => setTimeout(pasa, 100);
+      img.src = `/img/${siguienteFoto()}.webp`;
+    };
+
+    pasa();
+  </script>
+</body>
+</html>

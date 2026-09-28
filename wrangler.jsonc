@@ -4,9 +4,10 @@
   "name": "ladiegol",
   "compatibility_date": "2026-08-01",
   "assets": {
-    // la web es la raíz del repo; lo que no se publica está en .assetsignore
-    "directory": ".",
-    // /aftermatch, /about… no son archivos: devuelve index.html con 200 y la web se encarga
+    // PROVISIONAL: solo se publica la página de "work in progress" de wip/.
+    // Cuando la web esté lista, esto vuelve a ser "." (la raíz del repo).
+    "directory": "wip",
+    // /aftermatch, /about… no son archivos: devuelve index.html con 200
     "not_found_handling": "single-page-application"
   }
 }
