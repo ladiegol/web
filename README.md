@@ -169,6 +169,14 @@ La web vive en **Cloudflare Workers** (solo archivos estáticos) conectada al re
 **`github.com/ladiegol/web`**. Cada push a `main` de ese repo se publica solo en un minuto.
 `github.com/meowrhino/ladiegol` es nuestra copia de trabajo.
 
+Los cambios van **siempre a los dos repos**. Con esto, un `git push` normal sube a ambos
+(se hace una vez en cada ordenador):
+
+```bash
+git remote set-url --add --push origin https://github.com/meowrhino/ladiegol.git
+git remote set-url --add --push origin https://github.com/ladiegol/web.git
+```
+
 - `wrangler.jsonc`: la config. Publica la raíz del repo y, si la url no es un archivo
   (`/aftermatch`, `/about`…), devuelve `index.html` con 200.
 - `.assetsignore`: lo que **no** se publica (`tools/`, este README, `.git`…).
