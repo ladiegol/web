@@ -167,14 +167,26 @@ Si cambias algo y sigues viendo lo viejo: caché. **Cmd+Shift+R**.
 
 La web vive en **Cloudflare Workers** (solo archivos estáticos) conectada al repo del cliente,
 **`github.com/ladiegol/web`**. Cada push a `main` de ese repo se publica solo en un minuto.
-`github.com/meowrhino/ladiegol` es nuestra copia de trabajo.
 
-Los cambios van **siempre a los dos repos**. Con esto, un `git push` normal sube a ambos
-(se hace una vez en cada ordenador):
+Hay dos repos y **no llevan lo mismo**:
+
+- **`meowrhino/ladiegol`** (el nuestro, `origin`): aquí se trabaja. Su `main` es la web de
+  verdad. Un `git push` normal solo sube aquí.
+- **`ladiegol/web`** (el del cliente, remoto `web`): es lo que sale en ladiegol.com. Ahora mismo
+  tiene la página provisional de **work in progress**.
+
+La página provisional está en la rama **`wip`** de nuestro repo: es `main` más la carpeta `wip/`,
+y `wrangler.jsonc` apuntando a esa carpeta, así que no se publica nada más.
 
 ```bash
-git remote set-url --add --push origin https://github.com/meowrhino/ladiegol.git
-git remote set-url --add --push origin https://github.com/ladiegol/web.git
+# cambiar la página provisional
+git switch wip          # editar wip/index.html, commit
+git push origin wip     # copia en nuestro repo
+git push web wip:main   # ladiegol.com
+
+# lanzar la web de verdad (sustituye la provisional)
+git switch main
+git push --force-with-lease web main:main
 ```
 
 - `wrangler.jsonc`: la config. Publica la raíz del repo y, si la url no es un archivo
