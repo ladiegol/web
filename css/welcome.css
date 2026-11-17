@@ -1,0 +1,51 @@
+/* La portada de bienvenida: pase de imágenes a pantalla completa
+   con el nombre encima. */
+
+.welcome {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+}
+
+.welcome__media { position: absolute; inset: 0; }
+
+.welcome__slot {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /* el fundido largo es lo que hace que el pase no parezca un parpadeo;
+     si se cambia, cambiar también FUNDIDO_MS en js/welcome.js */
+  transition: opacity .7s ease;
+}
+
+.welcome__slot.is-front { opacity: 1; }
+
+/* los loops se encadenan más rápido: cada clip ya trae su propio movimiento */
+.welcome--loop .welcome__slot { transition: opacity .6s ease; }
+
+/* el velo baja el contraste del pase para que el nombre se lea siempre */
+.welcome__veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .35);
+}
+
+.welcome__name {
+  position: relative;
+  margin: 0;
+  padding: 0 var(--pad);
+  font-family: var(--font-title);
+  font-size: var(--name-size);   /* el de la cabecera (css/base.css) */
+  white-space: nowrap;
+  line-height: .95;
+  font-weight: 400;
+  text-align: center;
+  color: #fff;
+  mix-blend-mode: normal;
+  text-shadow: 0 0 60px rgba(0, 0, 0, .55);
+}

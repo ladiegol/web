@@ -1,0 +1,87 @@
+/* La página de proyecto. */
+
+.project { max-width: 85rem; margin: 0 auto; }
+
+.project__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.1rem;
+  padding: 8rem 0;
+}
+
+.project__title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 2.4rem;   /* más grande, lo pidió ella (antes 1,5) */
+  text-wrap: balance;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+/* el ¿ y el ¡ que no tiene Wild Trave: un ? y un ! del revés (build/paginas.mjs) */
+.al-reves { display: inline-block; transform: rotate(180deg); }
+
+.project__meta {
+  margin: 0;
+  color: var(--fg-dim);
+  text-transform: lowercase;
+  letter-spacing: .02em;
+  font-size: 1.5rem;   /* antes 1,05 */
+}
+
+/* el back del final: centrado, grande y con aire */
+.project > .back {
+  display: block;
+  width: fit-content;
+  margin: 7rem auto 3rem;
+  padding: 1rem 2rem;
+  font-size: 1.3rem;
+  letter-spacing: .04em;
+}
+
+/* vimeo: portada estática hasta que se clica */
+.player {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #151515;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* dos vídeos en un proyecto (coches.net, leroy): con mucho aire entre ellos */
+.player + .player { margin-top: 6rem; }
+
+.player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.player__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 2.3rem;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0, 0, 0, .6);
+  transition: transform var(--dur) ease;
+}
+
+.player:hover .player__play { transform: scale(1.12); }
+
+/* aire entre stills: pegadas agobiaban */
+.stills { display: flex; flex-direction: column; gap: 3rem; }
+/* el build les pone width y height (su proporción de verdad); sin ellos (la
+   vista previa), 16:9 de reserva hasta que llega la foto */
+.stills img { height: auto; aspect-ratio: auto 16 / 9; }
+/* cada foto entra con un fundido cuando termina de cargar (.ok, de
+   js/transicion.js), en vez de aparecer de golpe; sin JS se ve sin más */
+.still { transition: opacity .8s ease; }
+.js .still { opacity: 0; }
+.still.ok { opacity: 1; }
+
+@media (max-width: 720px) {
+  .project__title { font-size: 1.6rem; }
+  .project__meta { font-size: 1.2rem; }
+  .stills { gap: 1.5rem; }
+  .player + .player { margin-top: 3rem; }
+}

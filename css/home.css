@@ -1,0 +1,95 @@
+/* La home: el filtro (arriba a la izquierda) y el grid de casillas. */
+
+/* en la esquina de la página, a la altura del "about" de la derecha */
+.filtro {
+  position: absolute;
+  top: var(--pad);
+  left: var(--pad);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1rem;
+}
+.filtro__op {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  /* un botón no hereda esto solo: sin ello, "all" salía en minúscula */
+  text-transform: inherit;
+  letter-spacing: inherit;
+  color: var(--fg-dim);
+  cursor: pointer;
+}
+.filtro__op:hover,
+.filtro__op[aria-pressed="true"] { color: var(--fg); }
+
+.tile[hidden] { display: none; }
+
+/* mucho negro entre casillas: las filas se separan más que las columnas,
+   porque cada casilla lleva su rótulo */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));   /* de 2 en 2 (antes 3), lo pidió ella */
+  column-gap: 3rem;   /* más aire entre imágenes, lo pidió ella */
+  row-gap: 3.5rem;
+  grid-auto-flow: row dense;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+/* los proyectos destacados ocupan las dos columnas: a lo ancho */
+.tile--big { grid-column: span 2; grid-row: span 2; }
+.tile--big.tile--right { grid-column: -3 / -1; }
+
+.tile__media {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #151515;
+}
+
+.tile__still,
+.tile__loop {
+  position: absolute;
+  inset: 0;
+  transition: opacity var(--dur) ease;
+}
+
+/* el still entra con fundido al cargar (.ok, de js/transicion.js; sin JS se
+   ve sin más); el loop, al arrancar el hover */
+.js .tile__still,
+.tile__loop { opacity: 0; }
+.tile__still.ok { opacity: 1; }
+.tile.is-playing .tile__loop { opacity: 1; }
+.tile.is-playing .tile__still { opacity: 0; }
+
+/* el rótulo, pequeño y debajo de la imagen, en DM Mono como la bio: el
+   cliente a la izquierda, en 500, y el proyecto a la derecha, en 400 y gris
+   (como en móvil; lo pidió ella) */
+.tile__meta {
+  order: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.6em;
+  font-family: var(--font-about);
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+
+.tile__meta span { overflow: hidden; text-overflow: ellipsis; }
+.tile__meta span:last-child:not(:first-child) { font-weight: 400; color: var(--fg-dim); text-align: right; }
+
+@media (max-width: 720px) {
+  .grid { grid-template-columns: minmax(0, 1fr); row-gap: 1.75rem; }
+  .tile--big, .tile--big.tile--right { grid-column: auto; grid-row: auto; }
+}

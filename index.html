@@ -1,0 +1,24 @@
+<!doctype html>
+<!--
+  VISTA PREVIA
+  Este fichero no se publica: la web de verdad la escribe build/build.mjs al
+  subir los cambios. Sirve para verlos antes de subirlos, con Live Server de
+  VS Code ("Go Live", abajo a la derecha). Lee data/ y projects/ y pinta la
+  página con las mismas plantillas que el build.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>vista previa — LA DIEGOL</title>
+</head>
+<body style="background:#000;color:#ededed;font:18px/1.5 system-ui,sans-serif;padding:2em">
+  <p id="aviso">cargando la vista previa…</p>
+  <script>
+    if (location.protocol === 'file:') document.getElementById('aviso').innerHTML =
+      'Esta página se abre con <b>Live Server</b>: en VS Code, botón <b>Go Live</b> abajo a la derecha.';
+  </script>
+  <script type="module" src="build/preview.mjs"></script>
+</body>
+</html>

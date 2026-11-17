@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schema/project.json",
+  "title": "POR CULPA DEL AMOR",
+  "client": "DOLLAR SELMOUNI",
+  "type": "MUSIC VIDEO",
+  "vimeo": [
+    "685499456"
+  ],
+  "cover": "1",
+  "photos": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ]
+}

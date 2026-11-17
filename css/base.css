@@ -1,0 +1,183 @@
+/* Tokens, tipografías, cabecera y about. */
+
+:root {
+  --bg: #000;
+  --fg: #ededed;
+  --fg-dim: #8a8a8a;
+  --line: #262626;
+
+  --font-title: "Wild Trave", "Arial Black", sans-serif;
+  --font-body: "Rajdhani", system-ui, sans-serif;
+  --font-about: "DM Mono", ui-monospace, monospace;
+
+  --gap: .75rem;
+  --pad: 1.25rem;
+  --dur: .45s;
+  /* el nombre, igual en la cabecera y en el welcome (lo pidió ella) */
+  --name-size: clamp(22px, 2.9vw, 5.8rem);
+
+}
+
+/* Tres fuentes, como pidió ella: Wild Trave Rounded (gratis) para el nombre, el
+   welcome y los títulos de los proyectos; DM Mono (OFL, 400 y 500) para el
+   about, el nav, el filtro y los rótulos de la home; Rajdhani (OFL, 400 y 700) para todo lo demás. Servidas desde fonts/. Wild Trave no trae el
+   espacio ni tildes: el espacio sale de la siguiente de la lista, y las tildes
+   las quita la plantilla (build/paginas.mjs, sinTildes). */
+@font-face { font-family: "Wild Trave"; src: url(../fonts/wild-trave-rounded.woff2) format("woff2"); font-display: swap; }
+@font-face { font-family: "Rajdhani"; src: url(../fonts/rajdhani-400.woff2) format("woff2"); font-display: swap; }
+@font-face { font-family: "Rajdhani"; src: url(../fonts/rajdhani-700.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "DM Mono"; src: url(../fonts/dm-mono-400.woff2) format("woff2"); font-display: swap; }
+@font-face { font-family: "DM Mono"; src: url(../fonts/dm-mono-500.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Todo va en rem sobre esta raíz: 13 px hasta ~1440 px de ancho y luego
+   crece con la pantalla (≈19 px en 2560, ≈25 px en 4K), para que en una
+   pantalla grande no salga todo diminuto. */
+html {
+  background: var(--bg);
+  font-size: clamp(13px, 5.8px + .5vw, 28px);
+}
+
+body {
+  margin: 0;
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: .01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- cabecera ---------- */
+
+/* la cabecera se va con el scroll; el nombre va centrado y con aire, igual
+   en todas las páginas. El nav va arriba a la izquierda; en la home, a la
+   derecha (la izquierda es del filtro) */
+/* z-index por debajo de 9: la tapa de la transición (css/transicion.css) tiene que quedar encima */
+.site-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1rem;
+  padding: calc(var(--pad) * 6) var(--pad);
+}
+
+
+/* con Wild Trave "LA DIEGOL" mide unas 8,8 veces el tamaño de letra */
+.wordmark {
+  font-family: var(--font-title);
+  font-size: var(--name-size);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.site-nav {
+  position: absolute;
+  left: var(--pad);
+  top: var(--pad);
+  display: flex;
+  gap: 1rem;
+  color: var(--fg-dim);
+}
+/* el nav y el filtro, en DM Mono y en mayúscula, como la bio (lo pidió ella) */
+.site-nav,
+.filtro {
+  font-family: var(--font-about);
+  font-size: .85rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.site-nav a:hover { color: var(--fg); }
+body[data-vista="home"] .site-nav { left: auto; right: var(--pad); }
+
+/* prueba: aire a los lados (7 % del ancho), aunque las casillas salgan más pequeñas */
+.app { padding: 0 clamp(var(--pad), 7vw, 10rem) calc(var(--pad) * 4); }
+
+/* la portada de bienvenida ocupa la pantalla entera: fuera cabecera, márgenes
+   y, en la home, el grid de debajo hasta que se sale */
+body[data-vista="welcome"] .site-header,
+body[data-vista="welcome"] .home { display: none; }
+body[data-vista="welcome"] .app { padding: 0; }
+
+/* ---------- about ---------- */
+
+/* en DM Mono y en mayúsculas; en móvil, primero la foto (data/about/1.webp) y
+   luego el texto; en ordenador, el texto a la izquierda, centrado con la foto a
+   la derecha (lo pidió ella) */
+.about {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0 0;
+  font-family: var(--font-about);
+  font-size: 1rem;
+  line-height: 1.55;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.about__text p { margin: 0 0 1.4em; }
+.about__foto { order: -1; height: auto; margin-bottom: 3rem; }
+
+/* CONTACT, el mail y los iconos de Instagram y Vimeo */
+.about__contact { margin-top: 3rem; }
+.about__contact h2 { margin: 0 0 .3rem; font-size: inherit; font-weight: 500; letter-spacing: .06em; }
+.about__contact p { margin: 0; }
+.about__social { display: flex; gap: 1rem; margin-top: 1rem; }
+.about__social a { display: block; width: 1.5rem; height: 1.5rem; opacity: .85; }
+.about__social a:hover { opacity: 1; }
+.about__social svg { width: 100%; height: 100%; fill: currentColor; }
+
+.about__clients {
+  margin-top: 2rem;
+  color: rgba(255, 255, 255, .7);
+  text-transform: lowercase;
+  letter-spacing: .02em;
+  font-size: .85rem;
+}
+
+/* la firma del estudio, como en almarbra: pequeña, gris y al final */
+.about__text .about__credito {
+  margin: 5rem 0 0;
+  text-align: left;
+  font-size: .75rem;
+  color: var(--fg-dim);
+}
+.about__credito a:hover { color: var(--fg); }
+
+.back { display: inline-block; margin-top: 2rem; color: var(--fg-dim); }
+.back:hover { color: var(--fg); }
+
+/* ---------- transiciones entre páginas ---------- */
+
+/* entre una página y otra, la de la casa (css/transicion.css y
+   js/transicion.js). Aquí solo la salida del welcome a la home, que es en la
+   misma página (js/welcome.js): un fundido lento */
+html[data-paso="welcome"]::view-transition-old(root) { animation: welcome-fuera 1.2s cubic-bezier(.65, 0, .25, 1) both; }
+html[data-paso="welcome"]::view-transition-new(root) { animation: welcome-dentro 1.2s cubic-bezier(.65, 0, .25, 1) both; }
+@keyframes welcome-fuera { to { opacity: 0; } }
+@keyframes welcome-dentro { from { opacity: 0; } }
+
+@media (max-width: 720px) {
+  :root { --gap: 6px; --pad: 12px; --name-size: 8vw; }
+  /* mismo aire sobre el nombre (bajo el nav) que debajo */
+  .site-header { padding: calc(var(--pad) + 2.2rem + var(--pad) * 4) var(--pad) calc(var(--pad) * 4); }
+}
+
+/* en ordenador, dos columnas iguales y con aire entre ellas */
+@media (min-width: 721px) {
+  body[data-vista="about"] .about {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 8rem);
+    max-width: 85rem;
+    margin: 0 auto;
+  }
+  .about__foto { order: 0; margin-bottom: 0; }
+}
+
